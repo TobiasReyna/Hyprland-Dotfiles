@@ -1,0 +1,200 @@
+{
+    "layer": "top",
+    "position": "top",
+    "height": 36,
+    "margin-top": 2,
+    "margin-left": 8,
+    "margin-right": 8,
+    "spacing": 4,
+    "modules-left": [
+        "custom/arch",
+        "custom/updates",
+        "hyprland/workspaces"
+    ],
+    "modules-center": [
+        "custom/mako",
+        "clock"
+    ],
+    "modules-right": [
+        "tray",
+        "group/hardware",
+        "pulseaudio",
+        "backlight",
+        "network",
+        "bluetooth",
+        "group/power",
+        "custom/power"
+    ],
+    "custom/arch": {
+        "format": "",
+        "tooltip": false
+    },
+    "hyprland/workspaces": {
+        "disable-scroll": true,
+        "all-outputs": true,
+        "format": "{icon}",
+        "format-icons": {
+            "1": "1",
+            "2": "2",
+            "3": "3",
+            "4": "4",
+            "5": "5",
+            "default": "󰧞"
+        }
+    },
+    "clock": {
+        "timezone": "America/Argentina/Salta",
+        "format": " {:%H:%M}",
+        "format-alt": " {:%A, %d de %B de %Y}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>"
+    },
+    "cpu": {
+        "format": " {usage}%",
+        "tooltip": false
+    },
+    "memory": {
+        "format": " {}%"
+    },
+    "temperature": {
+        "hwmon-path": "/sys/class/hwmon/hwmon2/temp1_input",
+        "critical-threshold": 80,
+        "format": "{icon} {temperatureC}°C",
+        "format-icons": [
+            "",
+            "",
+            ""
+        ]
+    },
+    "backlight": {
+        "format": "{icon} {percent}%",
+        "format-icons": [
+            "󰃞",
+            "󰃟",
+            "󰃠"
+        ]
+    },
+    "battery": {
+        "states": {
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-icons": [
+            "󰂎",
+            "󰁺",
+            "󰁻",
+            "󰁼",
+            "󰁽",
+            "󰁾",
+            "󰁿",
+            "󰂀",
+            "󰂁",
+            "󰂂",
+            "󰁹"
+        ]
+    },
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟 Muted",
+        "on-click": "pavucontrol",
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "󰂑",
+            "headset": "󰋎",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        }
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
+    },
+    "network": {
+        "format-wifi": " {essid}",
+        "format-ethernet": "󰈀 {ifname}",
+        "format-disconnected": "󰖪 Sin red",
+        "format-linked": "󰖩 {ifname}",
+        "tooltip-format": "{ifname}: {ipaddr}\nSeñal: {signalStrength}%\n↑ {bandwidthUpBytes}  ↓ {bandwidthDownBytes}",
+        "tooltip-format-disconnected": "Sin conexión de red",
+        "on-click": "networkmanager_dmenu"
+    },
+    "bluetooth": {
+        "format": "󰂯",
+        "format-connected": "󰂱 {device_alias}",
+        "format-disabled": "󰂲",
+        "tooltip-format": "Bluetooth: {status}",
+        "tooltip-format-connected": "{device_enumerate}",
+        "tooltip-format-enumerate-connected": "  {device_alias}",
+        "on-click": "blueman-manager"
+    },
+    "tray": {
+        "icon-size": 18,
+        "spacing": 10
+    },
+    "custom/mako": {
+        "format": "󰂚",
+        "tooltip-format": "Notificaciones\nClick izq: Ver historial\nClick der: Modo Silencio (DND)",
+        "on-click": "makoctl restore",
+        "on-click-right": "makoctl mode -t dnd"
+    },
+    // ── Group Drawers ────────────────────────────────────────────
+    // Cajón de Hardware: trigger = temperature → despliega cpu y memory
+    "group/hardware": {
+        "orientation": "inherit",
+        "modules": [
+            "temperature",
+            "cpu",
+            "memory"
+        ],
+        "drawer": {
+            "transition-duration": 300,
+            "children-class": "hw-child",
+            "transition-left-to-right": false
+        }
+    },
+    // Cajón de Energía: trigger = battery → despliega power-profiles-daemon
+    "group/power": {
+        "orientation": "inherit",
+        "modules": [
+            "battery",
+            "power-profiles-daemon"
+        ],
+        "drawer": {
+            "transition-duration": 300,
+            "children-class": "power-child",
+            "transition-left-to-right": false
+        }
+    },
+    // ── Módulo de Actualizaciones ────────────────────────────────
+    // Muestra la cantidad de paquetes pendientes (repos + AUR).
+    // Si no hay actualizaciones, el script devuelve vacío → módulo oculto.
+    "custom/updates": {
+        "exec": "~/.config/waybar/scripts/updates.sh",
+        "return-type": "json",
+        "interval": 3600,
+        "format": "󰊠 {}",
+        "on-click": "ghostty -e paru -Syu",
+        "tootip": true
+    },
+    // ── Módulo de Apagado (wlogout) ──────────────────────────────
+    "custom/power": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "wlogout -b 4"
+    }
+}

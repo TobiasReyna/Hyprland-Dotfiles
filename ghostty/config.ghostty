@@ -1,0 +1,21 @@
+# Ghostty config — Cybersigilism
+# ─────────────────────────────────────────────────────────────────
+# Colores de fallback ESTÁTICOS (primer frame, anti-flash).
+# Actúan como red de seguridad ANTES de que wallust sobrescriba.
+# ─────────────────────────────────────────────────────────────────
+background = 11111b
+foreground = cba6f7
+
+# Colores dinámicos generados por wallust en cada cambio de wallpaper.
+# wallust escribe ~/.cache/wallust/ghostty usando el template configurado.
+# Si el archivo no existe aún, los colores estáticos de arriba se mantienen.
+config-file = /home/tobito/.cache/wallust/ghostty
+
+# Tipografía
+font-family = JetBrainsMono Nerd Font
+font-size = 14
+
+# Decoraciones
+window-decoration = false
+window-padding-x = 8
+window-padding-y = 6

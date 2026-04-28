@@ -1,0 +1,194 @@
+/* style.css - Cybersigilism Waybar */
+
+* {
+    border: none;
+    border-radius: 0;
+    font-family: "JetBrainsMono Nerd Font", "Inter", sans-serif;
+    font-size: 15px;
+    min-height: 0;
+}
+
+/* Fondo sólido Mocha en la barra completa.
+   Los contenedores internos actúan como pastillas sobre este fondo. */
+window#waybar {
+    background-color: rgba(17, 17, 27, 0.7); /* El 0.7 es lo que le da el efecto de cristal */
+    color: #cdd6f4;
+    border-bottom: 2px solid #313244;
+    border-radius: 12px;
+}
+
+/* Contenedores: sin fondo propio, sólo espaciado */
+.modules-left,
+.modules-center,
+.modules-right {
+    background-color: transparent;
+    padding: 0 4px;
+}
+
+tooltip {
+    background: #11111b;
+    border: 1px solid #cba6f7;
+    border-radius: 8px;
+}
+
+tooltip label {
+    color: #cdd6f4;
+}
+
+/* Espacios de Trabajo - Diseño de Pastillas (Pills) */
+#workspaces button {
+    padding: 0 14px;
+    margin: 4px;
+    border-radius: 16px;
+    color: #cdd6f4;
+    background-color: #1e1e2e;
+    transition: all 0.3s ease;
+}
+
+#workspaces button:hover {
+    background-color: #313244;
+    color: #f5c2e7; /* Detalles y alertas en rosa */
+    box-shadow: inherit;
+    text-shadow: inherit;
+}
+
+#workspaces button.active {
+    background-color: #cba6f7; /* Fondo Morado Neón Activo */
+    color: #11111b; /* Texto oscuro para contraste */
+    font-weight: bold;
+    animation: workspace_bounce 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275) both;
+    /* GTK no soporta transform; el bounce se logra via font-size + opacity */
+}
+
+/* Estilización General de Módulos */
+#clock,
+#battery,
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#pulseaudio,
+#network,
+#bluetooth,
+#tray,
+#custom-mako,
+#power-profiles-daemon,
+#custom-arch,
+#custom-power {
+    padding: 0 12px;
+    margin: 4px 2px;
+    border-radius: 6px;
+    background-color: #1e1e2e;
+    color: #cba6f7;
+}
+
+#custom-arch {
+    color: #f5c2e7;
+    font-size: 18px;
+}
+
+/* Fix centrado del ícono de Power Profiles Daemon.
+   El glifo de "balanza" (balanced) tiene métrica asimétrica;
+   padding asimétrico vertical lo ancla al centro óptico. */
+#power-profiles-daemon {
+    padding: 2px 14px 0;
+    font-size: 14px;
+}
+
+/* Red: estado sin conexión resaltado en naranja */
+#network.disconnected {
+    color: #fab387;
+}
+
+/* Bluetooth desactivado en gris discreto */
+#bluetooth.disabled {
+    color: #585b70;
+}
+
+/* Indicadores de Alerta/Críticos */
+#battery.warning {
+    color: #fab387;
+}
+
+#battery.critical {
+    color: #f38ba8;
+    animation: blink 1s steps(2, start) infinite;
+}
+
+#temperature.critical {
+    color: #f38ba8;
+}
+
+@keyframes blink {
+    to {
+        color: #11111b;
+        background-color: #f38ba8;
+    }
+}
+
+/* ── Animación Bounce para Workspaces ─────────────────────────── */
+/* NOTA: GTK CSS no soporta transform:scale(). Se usa font-size + opacity
+   como aproximación: el ícono crece brevemente antes de asentarse. */
+@keyframes workspace_bounce {
+    0%   { font-size: 11px; opacity: 0.7; }
+    60%  { font-size: 18px; opacity: 1;   }
+    100% { font-size: 15px; opacity: 1;   }
+}
+
+/* ── Group Drawers ────────────────────────────────────────────── */
+/* Contenedor del grupo: mantiene el aspecto de pastilla */
+#hardware,
+#power {
+    background-color: #1e1e2e;
+    border-radius: 6px;
+    margin: 4px 2px;
+    padding: 0 4px;
+    color: #cba6f7;
+}
+
+/* Los hijos (módulos internos) ya tienen estilo propio;
+   les quitamos el margen lateral para evitar doble gap */
+#hardware .hw-child,
+#power .power-child {
+    margin: 0;
+    border-radius: 0;
+    background-color: transparent;
+}
+
+/* Primer hijo (trigger) mantiene esquinas izquierdas redondeadas */
+#hardware > widget:first-child > *,
+#power > widget:first-child > * {
+    border-radius: 6px 0 0 6px;
+}
+
+/* Último hijo (módulo más a la derecha) cierra las esquinas */
+#hardware > widget:last-child > *,
+#power > widget:last-child > * {
+    border-radius: 0 6px 6px 0;
+}
+
+/* ── Módulo de Actualizaciones ──────────────────────────────────── */
+/* Hereda la misma pastilla que el resto de módulos */
+#custom-updates {
+    padding: 0 12px;
+    margin: 4px 2px;
+    border-radius: 6px;
+    background-color: #1e1e2e;
+    color: #cba6f7;
+    transition: all 0.3s ease;
+}
+
+/* Estado con actualizaciones pendientes:
+   color cambia a ámbar suave y pulsa levemente para llamar la atención
+   sin ser agresivo — coherente con la estética Cybersigilism. */
+#custom-updates.pending {
+    color: #f9e2af;
+    animation: updates_pulse 3s ease-in-out infinite;
+}
+
+/* Pulso: ámbar → peach → ámbar */
+@keyframes updates_pulse {
+    0%   { color: #f9e2af; }
+    50%  { color: #fab387; }
+    100% { color: #f9e2af; }
+}
