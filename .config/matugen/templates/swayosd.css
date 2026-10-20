@@ -1,0 +1,23 @@
+window {
+    background-color: {{colors.surface.default.hex}}FF;
+    border-radius: 16px;
+    border: 2px solid {{colors.primary.default.hex}}FF;
+    padding: 12px;
+}
+
+#osd {
+    color: {{colors.on_surface.default.hex}}FF;
+}
+
+progress, trough {
+    border-radius: 8px;
+    min-height: 12px;
+}
+
+trough {
+    background-color: {{colors.surface_variant.default.hex}}FF;
+}
+
+progress {
+    background-color: {{colors.primary.default.hex}}FF;
+}

@@ -1,0 +1,30 @@
+# Variables de entorno predeterminadas
+export BROWSER="firefox"
+export EDITOR="nvim"
+
+# Historial de Zsh
+HISTFILE=~/.zsh_history
+HISTSIZE=10000
+SAVEHIST=10000
+setopt appendhistory sharehistory hist_ignore_all_dups
+
+# Alias útiles con iconos
+alias ls='ls --color=auto'
+alias ll='ls -lah --color=auto'
+alias grep='grep --color=auto'
+alias update='sudo pacman -Syu'
+
+# Iniciar Starship
+eval "$(starship init zsh)"
+export PATH="$HOME/.local/bin:$PATH"
+
+# fnm
+FNM_PATH="/home/tobito/.local/share/fnm"
+if [ -d "$FNM_PATH" ]; then
+  export PATH="$FNM_PATH:$PATH"
+  eval "$(fnm env --shell zsh)"
+fi
+
+# fnm configuration
+export PATH="$HOME/.local/share/fnm:$PATH"
+eval "$(fnm env --use-on-cd --shell zsh)"

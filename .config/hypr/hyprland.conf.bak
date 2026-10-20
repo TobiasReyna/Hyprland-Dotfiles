@@ -1,0 +1,106 @@
+# Importar colores generados por Matugen
+source = ~/.config/hypr/colors.conf
+
+monitor = , preferred, auto, 1
+
+# Autostart
+exec-once = awww-daemon
+exec-once = quickshell
+
+# Variables principales
+$mainMod = SUPER
+$terminal = ghostty
+$browser = firefox
+$launcher = rofi -show drun -theme ~/.config/rofi/launcher.rasi
+$wallSelector = ~/.config/hypr/scripts/wallpaper-selector.sh
+
+# Estética General
+general {
+    gaps_in = 6
+    gaps_out = 12
+    border_size = 2
+    col.active_border = $primary $secondary 45deg
+    col.inactive_border = $surface
+    layout = dwindle
+}
+
+decoration {
+    rounding = 14
+    active_opacity = 1.0
+    inactive_opacity = 0.94
+
+    blur {
+        enabled = true
+        size = 6
+        passes = 3
+        new_optimizations = true
+        ignore_opacity = true
+    }
+
+    shadow {
+        enabled = true
+        range = 18
+        render_power = 3
+        color = rgba(00000066)
+    }
+}
+
+# Animaciones fluidas y modernas
+animations {
+    enabled = true
+    bezier = fluent_decel, 0.05, 0.9, 0.1, 1.05
+    bezier = easeOutExpo, 0.16, 1, 0.3, 1
+    bezier = softSnap, 0.4, 0, 0.2, 1
+
+    animation = windows, 1, 5, fluent_decel, popin 80%
+    animation = windowsOut, 1, 4, easeOutExpo, popin 80%
+    animation = border, 1, 8, default
+    animation = fade, 1, 5, softSnap
+    animation = workspaces, 1, 5, easeOutExpo, slide
+}
+
+# Atajos de Teclado Principales
+bind = $mainMod, Return, exec, $terminal
+bind = $mainMod, Q, killactive,
+bind = $mainMod, Space, exec, $launcher
+bind = $mainMod, B, exec, $browser
+bind = $mainMod, W, exec, $wallSelector
+bind = $mainMod, F, fullscreen,
+bind = $mainMod, V, togglefloating,
+
+# Cambiar de espacio de trabajo (SUPER + 1-9, 0)
+bind = $mainMod, 1, workspace, 1
+bind = $mainMod, 2, workspace, 2
+bind = $mainMod, 3, workspace, 3
+bind = $mainMod, 4, workspace, 4
+bind = $mainMod, 5, workspace, 5
+bind = $mainMod, 6, workspace, 6
+bind = $mainMod, 7, workspace, 7
+bind = $mainMod, 8, workspace, 8
+bind = $mainMod, 9, workspace, 9
+bind = $mainMod, 0, workspace, 10
+
+# Mover ventana activa a un espacio de trabajo (SUPER + SHIFT + 1-9, 0)
+bind = $mainMod SHIFT, 1, movetoworkspace, 1
+bind = $mainMod SHIFT, 2, movetoworkspace, 2
+bind = $mainMod SHIFT, 3, movetoworkspace, 3
+bind = $mainMod SHIFT, 4, movetoworkspace, 4
+bind = $mainMod SHIFT, 5, movetoworkspace, 5
+bind = $mainMod SHIFT, 6, movetoworkspace, 6
+bind = $mainMod SHIFT, 7, movetoworkspace, 7
+bind = $mainMod SHIFT, 8, movetoworkspace, 8
+bind = $mainMod SHIFT, 9, movetoworkspace, 9
+bind = $mainMod SHIFT, 0, movetoworkspace, 10
+
+# Movimiento y redimensionado con el mouse
+bindm = $mainMod, mouse:272, movewindow
+bindm = $mainMod, mouse:273, resizewindow
+
+input {
+      kb_layout = latam
+    # Si tu teclado físico es de España (con la Ç al lado del Enter), cambiá "latam" por "es"
+    follow_mouse = 1
+    touchpad {
+        natural_scroll = true
+    }
+}

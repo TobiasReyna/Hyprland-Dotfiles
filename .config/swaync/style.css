@@ -1,0 +1,85 @@
+@define-color cc-bg #111318A6;
+@define-color noti-border-color #44474fFF;
+@define-color noti-bg #1e2025B3;
+@define-color noti-bg-hover #282a2fCC;
+@define-color text-color #e2e2e9FF;
+@define-color text-color-disabled #8e9099FF;
+@define-color bg-selected #acc7ffFF;
+@define-color on-selected #0f2f60FF;
+
+* {
+  font-family: "JetBrainsMono Nerd Font";
+}
+
+.control-center {
+  background: @cc-bg;
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  border-radius: 16px;
+  color: @text-color;
+}
+
+.widget-title {
+  color: @text-color;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.widget-title > button {
+  background: @noti-bg;
+  color: @text-color;
+  border-radius: 8px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.20);
+}
+
+.widget-title > button:hover {
+  background: @noti-bg-hover;
+}
+
+.widget-dnd {
+  margin: 10px;
+}
+
+.widget-dnd > switch {
+  background: @noti-bg;
+  border-radius: 12px;
+}
+
+.widget-dnd > switch:checked {
+  background: @bg-selected;
+}
+
+.notification-row {
+  outline: none;
+}
+
+.notification-row:focus,
+.notification-row:hover {
+  background: transparent;
+}
+
+.notification {
+  background: @noti-bg;
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-radius: 12px;
+  margin: 6px 10px;
+  padding: 10px;
+}
+
+.notification-content {
+  background: transparent;
+  padding: 0;
+  border-radius: 12px;
+}
+
+.close-button {
+  background: @noti-bg-hover;
+  color: @text-color;
+  border-radius: 100%;
+}
+
+.close-button:hover {
+  background: @bg-selected;
+  color: @on-selected;
+}

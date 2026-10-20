@@ -1,0 +1,6 @@
+return {
+    primary = "rgba({{colors.primary.default.hex_stripped}}ff)",
+    secondary = "rgba({{colors.secondary.default.hex_stripped}}ff)",
+    surface = "rgba({{colors.surface.default.hex_stripped}}ff)",
+    error = "rgba({{colors.error.default.hex_stripped}}ff)",
+}

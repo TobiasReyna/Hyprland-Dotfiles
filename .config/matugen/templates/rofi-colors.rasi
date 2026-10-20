@@ -1,0 +1,12 @@
+* {
+    background: {{colors.surface.default.hex}}A6;
+    background-alt: {{colors.surface_container_high.default.hex}}BF;
+    foreground: {{colors.on_surface.default.hex}}FF;
+    primary: {{colors.primary.default.hex}}FF;
+    on-primary: {{colors.on_primary.default.hex}}FF;
+
+    /* Fallback aliases for legacy scripts */
+    bg: @background;
+    bg-alt: @background-alt;
+    fg: @foreground;
+}

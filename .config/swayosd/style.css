@@ -1,0 +1,23 @@
+window {
+    background-color: #111318FF;
+    border-radius: 16px;
+    border: 2px solid #acc7ffFF;
+    padding: 12px;
+}
+
+#osd {
+    color: #e2e2e9FF;
+}
+
+progress, trough {
+    border-radius: 8px;
+    min-height: 12px;
+}
+
+trough {
+    background-color: #44474fFF;
+}
+
+progress {
+    background-color: #acc7ffFF;
+}

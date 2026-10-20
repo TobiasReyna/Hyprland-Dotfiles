@@ -1,0 +1,85 @@
+@define-color cc-bg {{colors.surface.default.hex}}A6;
+@define-color noti-border-color {{colors.outline_variant.default.hex}}FF;
+@define-color noti-bg {{colors.surface_container.default.hex}}B3;
+@define-color noti-bg-hover {{colors.surface_container_high.default.hex}}CC;
+@define-color text-color {{colors.on_surface.default.hex}}FF;
+@define-color text-color-disabled {{colors.outline.default.hex}}FF;
+@define-color bg-selected {{colors.primary.default.hex}}FF;
+@define-color on-selected {{colors.on_primary.default.hex}}FF;
+
+* {
+  font-family: "JetBrainsMono Nerd Font";
+}
+
+.control-center {
+  background: @cc-bg;
+  border: 1px solid rgba(255, 255, 255, 0.30);
+  border-radius: 16px;
+  color: @text-color;
+}
+
+.widget-title {
+  color: @text-color;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 10px;
+}
+
+.widget-title > button {
+  background: @noti-bg;
+  color: @text-color;
+  border-radius: 8px;
+  padding: 5px 10px;
+  border: 1px solid rgba(255, 255, 255, 0.20);
+}
+
+.widget-title > button:hover {
+  background: @noti-bg-hover;
+}
+
+.widget-dnd {
+  margin: 10px;
+}
+
+.widget-dnd > switch {
+  background: @noti-bg;
+  border-radius: 12px;
+}
+
+.widget-dnd > switch:checked {
+  background: @bg-selected;
+}
+
+.notification-row {
+  outline: none;
+}
+
+.notification-row:focus,
+.notification-row:hover {
+  background: transparent;
+}
+
+.notification {
+  background: @noti-bg;
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  border-radius: 12px;
+  margin: 6px 10px;
+  padding: 10px;
+}
+
+.notification-content {
+  background: transparent;
+  padding: 0;
+  border-radius: 12px;
+}
+
+.close-button {
+  background: @noti-bg-hover;
+  color: @text-color;
+  border-radius: 100%;
+}
+
+.close-button:hover {
+  background: @bg-selected;
+  color: @on-selected;
+}

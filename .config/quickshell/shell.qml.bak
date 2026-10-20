@@ -1,0 +1,352 @@
+import Quickshell
+import Quickshell.Hyprland
+import Quickshell.Io
+import QtQuick
+import QtQuick.Layouts
+import "."
+
+Scope {
+    Variants {
+        model: Quickshell.screens
+
+        PanelWindow {
+            id: bar
+            required property var modelData
+            screen: modelData
+
+            anchors {
+                top: true
+                left: true
+                right: true
+            }
+            implicitHeight: 42
+            color: "transparent"
+
+            // Estado reactivo compartido
+            property string powerProfile: "balanced"
+            property string batteryCapacity: "100"
+            property string batteryStatus: "Unknown"
+            property int cpuUsage: 0
+            property real cpuTemp: 0
+            property int ramPercent: 0
+            property string ramText: "0.0/0.0G"
+            property int diskPercent: 0
+            property var prevCpu: null
+
+            function runProc(p) { p.running = true }
+
+            Process {
+                id: getProfileProc
+                command: ["powerprofilesctl", "get"]
+                running: true
+                stdout: StdioCollector { onStreamFinished: bar.powerProfile = this.text.trim() }
+            }
+
+            Process {
+                id: batProc
+                command: ["sh", "-c", "for b in /sys/class/power_supply/BAT*; do [ -r \"$b/capacity\" ] && echo \"$(cat \"$b/capacity\") $(cat \"$b/status\")\" && break; done"]
+                running: true
+                stdout: StdioCollector {
+                    onStreamFinished: {
+                        const p = this.text.trim().split(" ")
+                        if (p.length >= 2) { bar.batteryCapacity = p[0]; bar.batteryStatus = p[1] }
+                    }
+                }
+            }
+
+            Process {
+                id: cpuProc
+                command: ["sh", "-c", "head -n1 /proc/stat"]
+                stdout: StdioCollector {
+                    onStreamFinished: {
+                        const f = this.text.trim().split(/\s+/).slice(1).map(Number)
+                        const idle = f[3] + (f[4] || 0)
+                        const total = f.reduce((a, b) => a + b, 0)
+                        if (bar.prevCpu) {
+                            const dt = total - bar.prevCpu.total
+                            const di = idle - bar.prevCpu.idle
+                            if (dt > 0) bar.cpuUsage = Math.round(100 * (dt - di) / dt)
+                        }
+                        bar.prevCpu = { total: total, idle: idle }
+                    }
+                }
+            }
+
+            Process {
+                id: tempProc
+                command: ["sh", "-c", "for h in /sys/class/hwmon/hwmon*; do n=$(cat \"$h/name\" 2>/dev/null); case \"$n\" in coretemp|k10temp|zenpower) cat \"$h/temp1_input\"; exit;; esac; done; cat /sys/class/thermal/thermal_zone0/temp 2>/dev/null"]
+                stdout: StdioCollector {
+                    onStreamFinished: { const v = parseInt(this.text.trim()); if (!isNaN(v)) bar.cpuTemp = Math.round(v / 1000) }
+                }
+            }
+
+            Process {
+                id: ramProc
+                command: ["sh", "-c", "awk '/MemTotal/{t=$2} /MemAvailable/{a=$2} END{printf \"%d %.1f %.1f\", (t-a)*100/t, (t-a)/1048576, t/1048576}' /proc/meminfo"]
+                stdout: StdioCollector {
+                    onStreamFinished: {
+                        const p = this.text.trim().split(" ")
+                        if (p.length === 3) { bar.ramPercent = parseInt(p[0]); bar.ramText = p[1] + "/" + p[2] + "G" }
+                    }
+                }
+            }
+
+            Process {
+                id: diskProc
+                command: ["sh", "-c", "df -h / | awk 'NR==2{gsub(/%/,\"\",$5); print $5}'"]
+                stdout: StdioCollector {
+                    onStreamFinished: { const v = parseInt(this.text.trim()); if (!isNaN(v)) bar.diskPercent = v }
+                }
+            }
+
+            Process {
+                id: cycleProfileProc
+                property string targetProfile: "balanced"
+                command: ["powerprofilesctl", "set", targetProfile]
+                onExited: getProfileProc.running = true
+            }
+
+            Process {
+                id: wallLauncherProc
+                command: ["sh", "-c", "\"$HOME/.config/hypr/scripts/wallpaper-selector.sh\""]
+            }
+
+            Timer {
+                interval: 2000
+                running: true
+                repeat: true
+                triggeredOnStart: true
+                onTriggered: {
+                    cpuProc.running = true
+                    tempProc.running = true
+                    ramProc.running = true
+                    diskProc.running = true
+                    getProfileProc.running = true
+                    batProc.running = true
+                }
+            }
+
+
+            Rectangle {
+                anchors.fill: parent
+                anchors.margins: 6
+                anchors.bottomMargin: 0
+                radius: 12
+                color: Colors.background
+                border.color: Colors.surfaceVariant
+                border.width: 1
+
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 14
+                    anchors.rightMargin: 14
+
+                    // --- IZQUIERDA: Logo Arch + Workspaces ---
+                    RowLayout {
+                        spacing: 8
+
+                        Text {
+                            text: ""
+                            font.family: "JetBrainsMono Nerd Font"
+                            font.pixelSize: 18
+                            color: Colors.primary
+                            rightPadding: 6
+                        }
+
+                        Repeater {
+                            model: Hyprland.workspaces
+
+                            Rectangle {
+                                required property var modelData
+                                property bool isFocused: Hyprland.focusedWorkspace?.id === modelData.id
+
+                                Layout.preferredWidth: isFocused ? 28 : 18
+                                Layout.preferredHeight: 22
+                                radius: 8
+                                color: isFocused ? Colors.primary : Colors.surfaceVariant
+
+                                Behavior on Layout.preferredWidth {
+                                    NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
+                                }
+                                Behavior on color {
+                                    ColorAnimation { duration: 180 }
+                                }
+
+                                Text {
+                                    anchors.centerIn: parent
+                                    text: modelData.id
+                                    font.family: "JetBrainsMono Nerd Font"
+                                    font.pixelSize: 11
+                                    font.bold: true
+                                    color: parent.isFocused ? Colors.primaryText : Colors.text
+                                }
+
+                                MouseArea {
+                                    anchors.fill: parent
+                                    cursorShape: Qt.PointingHandCursor
+                                    onClicked: Hyprland.dispatch("workspace " + modelData.id)
+                                }
+                            }
+                        }
+                    }
+
+                    Item { Layout.fillWidth: true }
+
+                    // --- CENTRO: Reloj ---
+                    Text {
+                        id: clockText
+                        font.family: "JetBrainsMono Nerd Font"
+                        font.pixelSize: 13
+                        font.bold: true
+                        color: Colors.text
+
+                        SystemClock {
+                            id: sysClock
+                            precision: SystemClock.Seconds
+                        }
+                        text: Qt.formatDateTime(sysClock.date, "ddd dd MMM  •  HH:mm")
+                    }
+
+                    Item { Layout.fillWidth: true }
+
+                    // --- DERECHA: Métricas, perfil, batería, wallpaper ---
+                    RowLayout {
+                        spacing: 8
+
+                        // Píldora de hardware (CPU / Temp / RAM / Disco)
+                        Rectangle {
+                            Layout.preferredHeight: 26
+                            Layout.preferredWidth: hwLayout.implicitWidth + 20
+                            radius: 13
+                            color: Colors.surfaceVariant
+
+                            RowLayout {
+                                id: hwLayout
+                                anchors.centerIn: parent
+                                spacing: 12
+
+                                Repeater {
+                                    model: [
+                                        { icon: "\uf2db", label: bar.cpuUsage + "%" },
+                                        { icon: "\uf2c9", label: bar.cpuTemp + "°C" },
+                                        { icon: "\uf538", label: bar.ramPercent + "% " + bar.ramText },
+                                        { icon: "\uf0a0", label: bar.diskPercent + "%" }
+                                    ]
+                                    RowLayout {
+                                        required property var modelData
+                                        spacing: 5
+                                        Text {
+                                            text: modelData.icon
+                                            font.family: "JetBrainsMono Nerd Font"
+                                            font.pixelSize: 13
+                                            color: Colors.primary
+                                        }
+                                        Text {
+                                            text: modelData.label
+                                            font.family: "JetBrainsMono Nerd Font"
+                                            font.pixelSize: 12
+                                            font.bold: true
+                                            color: Colors.text
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // Perfil de energía (clic para rotar)
+                        Rectangle {
+                            Layout.preferredHeight: 26
+                            Layout.preferredWidth: profLayout.implicitWidth + 20
+                            radius: 13
+                            color: Colors.surfaceVariant
+
+                            RowLayout {
+                                id: profLayout
+                                anchors.centerIn: parent
+                                Text {
+                                    font.family: "JetBrainsMono Nerd Font"
+                                    font.pixelSize: 12
+                                    font.bold: true
+                                    color: Colors.primary
+                                    text: {
+                                        if (bar.powerProfile === "performance") return "\uf0e7 Rendimiento"
+                                        if (bar.powerProfile === "power-saver") return "\uf06c Ahorro"
+                                        return "\uf24e Equilibrado"
+                                    }
+                                }
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: {
+                                    if (bar.powerProfile === "balanced") cycleProfileProc.targetProfile = "performance"
+                                    else if (bar.powerProfile === "performance") cycleProfileProc.targetProfile = "power-saver"
+                                    else cycleProfileProc.targetProfile = "balanced"
+                                    cycleProfileProc.running = true
+                                }
+                            }
+                        }
+
+                        // Batería
+                        Rectangle {
+                            Layout.preferredHeight: 26
+                            Layout.preferredWidth: batLayout.implicitWidth + 20
+                            radius: 13
+                            color: Colors.surfaceVariant
+
+                            RowLayout {
+                                id: batLayout
+                                anchors.centerIn: parent
+                                spacing: 5
+                                Text {
+                                    font.family: "JetBrainsMono Nerd Font"
+                                    font.pixelSize: 13
+                                    color: Colors.primary
+                                    text: {
+                                        if (bar.batteryStatus === "Charging") return "\uf0e7"
+                                        const c = parseInt(bar.batteryCapacity)
+                                        if (c > 80) return "\uf240"
+                                        if (c > 60) return "\uf241"
+                                        if (c > 40) return "\uf242"
+                                        if (c > 20) return "\uf243"
+                                        return "\uf244"
+                                    }
+                                }
+                                Text {
+                                    font.family: "JetBrainsMono Nerd Font"
+                                    font.pixelSize: 12
+                                    font.bold: true
+                                    color: Colors.text
+                                    text: bar.batteryCapacity + "% " + bar.batteryStatus
+                                }
+                            }
+                        }
+
+                        // Selector de wallpaper
+                        Rectangle {
+                            Layout.preferredWidth: 32
+                            Layout.preferredHeight: 26
+                            radius: 13
+                            color: Colors.surfaceVariant
+
+                            Text {
+                                anchors.centerIn: parent
+                                text: "\uf03e"
+                                font.family: "JetBrainsMono Nerd Font"
+                                font.pixelSize: 13
+                                color: Colors.primary
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                cursorShape: Qt.PointingHandCursor
+                                onClicked: wallLauncherProc.running = true
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,12 @@
+* {
+    background: #111318A6;
+    background-alt: #282a2fBF;
+    foreground: #e2e2e9FF;
+    primary: #acc7ffFF;
+    on-primary: #0f2f60FF;
+
+    /* Fallback aliases for legacy scripts */
+    bg: @background;
+    bg-alt: @background-alt;
+    fg: @foreground;
+}
