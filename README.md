@@ -89,12 +89,27 @@ sudo usermod -aG video $USER
 
 ## 🚀 Instalación y Primer Uso
 
-### 1. Clonar el Repositorio
+### Opción Rápida: Script Automatizado (Recomendado)
+
+El repositorio incluye un instalador interactivo que detecta/instala el gestor de AUR (`paru` o `yay`), instala todos los paquetes necesarios, respalda configuraciones previas y enlaza los symlinks automáticamente:
+
+```bash
+git clone https://github.com/tu-usuario/dotfiles.git ~/dotfiles
+cd ~/dotfiles
+chmod +x install.sh
+./install.sh
+```
+
+---
+
+### Opción Manual
+
+#### 1. Clonar el Repositorio
 ```bash
 git clone https://github.com/tu-usuario/dotfiles.git ~/dotfiles
 ```
 
-### 2. Crear los Enlaces Simbólicos
+#### 2. Crear los Enlaces Simbólicos
 Si ya cuentas con carpetas existentes en `~/.config/`, respalda previamente o enlaza directamente:
 
 ```bash
@@ -104,14 +119,14 @@ for dir in hypr quickshell rofi swaync swayosd ghostty matugen fastfetch; do
 done
 ```
 
-### 3. Generar la Paleta de Colores Inicial
+#### 3. Generar la Paleta de Colores Inicial
 Aplica los colores dinámicos basados en tu fondo de pantalla favorito:
 
 ```bash
 matugen image /ruta/hacia/tu/wallpaper.png --source-color-index 0
 ```
 
-### 4. Recargar el Entorno
+#### 4. Recargar el Entorno
 ```bash
 hyprctl reload
 ```
