@@ -1,11 +1,11 @@
-@define-color cc-bg #111318A6;
-@define-color noti-border-color #44474fFF;
-@define-color noti-bg #1e2025B3;
-@define-color noti-bg-hover #282a2fCC;
-@define-color text-color #e2e2e9FF;
-@define-color text-color-disabled #8e9099FF;
-@define-color bg-selected #acc7ffFF;
-@define-color on-selected #0f2f60FF;
+@define-color cc-bg #191114A6;
+@define-color noti-border-color #514347FF;
+@define-color noti-bg #261d20B3;
+@define-color noti-bg-hover #30282aCC;
+@define-color text-color #eedfe2FF;
+@define-color text-color-disabled #9d8c91FF;
+@define-color bg-selected #ffb0ceFF;
+@define-color on-selected #531d36FF;
 
 * {
   font-family: "JetBrainsMono Nerd Font";

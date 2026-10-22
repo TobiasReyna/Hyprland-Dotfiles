@@ -1,6 +1,6 @@
 return {
-    primary = "rgba(acc7ffff)",
-    secondary = "rgba(bec6dcff)",
-    surface = "rgba(111318ff)",
+    primary = "rgba(ffb0ceff)",
+    secondary = "rgba(e1bdc9ff)",
+    surface = "rgba(191114ff)",
     error = "rgba(ffb4abff)",
 }

@@ -357,10 +357,26 @@ Scope {
 
                         // System Tray
                         Rectangle {
+                            id: trayContainer
                             Layout.preferredHeight: 26
-                            // Se oculta por completo si todos los items están filtrados
-                            Layout.preferredWidth: trayLayout.implicitWidth > 0 ? trayLayout.implicitWidth + 12 : 0
-                            visible: trayLayout.implicitWidth > 0
+
+                            // Contar items activos (excluyendo applets dedicados)
+                            readonly property int activeCount: {
+                                const _ = trayRepeater.count
+                                let count = 0
+                                const items = SystemTray.items.values
+                                for (let i = 0; i < items.length; i++) {
+                                    const it = items[i]
+                                    const k = ((it.id || "") + "|" + (it.title || "")).toLowerCase()
+                                    if (k.indexOf("nm-applet") < 0 && k.indexOf("blueman") < 0) {
+                                        count++
+                                    }
+                                }
+                                return count
+                            }
+
+                            visible: activeCount > 0
+                            Layout.preferredWidth: activeCount > 0 ? (activeCount * 18 + (activeCount - 1) * 6 + 12) : 0
                             radius: 8
                             color: Colors.surfaceVariant
 
@@ -370,6 +386,7 @@ Scope {
                                 spacing: 6
 
                                 Repeater {
+                                    id: trayRepeater
                                     model: SystemTray.items
 
                                     Item {
@@ -382,6 +399,8 @@ Scope {
                                         }
 
                                         visible: !isHiddenApplet
+                                        implicitWidth: visible ? 18 : 0
+                                        implicitHeight: visible ? 18 : 0
                                         Layout.preferredWidth: visible ? 18 : 0
                                         Layout.preferredHeight: visible ? 18 : 0
 

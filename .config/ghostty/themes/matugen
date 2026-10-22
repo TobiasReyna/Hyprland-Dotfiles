@@ -1,26 +1,26 @@
-background = #111318
-foreground = #e2e2e9
-cursor-color = #acc7ff
-cursor-text = #0f2f60
-selection-background = #2a4678
-selection-foreground = #d7e2ff
+background = #191114
+foreground = #eedfe2
+cursor-color = #ffb0ce
+cursor-text = #531d36
+selection-background = #6e334d
+selection-foreground = #ffd9e5
 
 # Standard ANSI Colors (0-7)
-palette = 0=#0c0e13
+palette = 0=#130c0f
 palette = 1=#ffb4ab
-palette = 2=#acc7ff
-palette = 3=#debcdf
-palette = 4=#bec6dc
-palette = 5=#573e5b
-palette = 6=#3f4759
-palette = 7=#e2e2e9
+palette = 2=#ffb0ce
+palette = 3=#f1bc96
+palette = 4=#e1bdc9
+palette = 5=#633e22
+palette = 6=#5a3f49
+palette = 7=#eedfe2
 
 # Bright ANSI Colors (8-15)
-palette = 8=#8e9099
+palette = 8=#9d8c91
 palette = 9=#93000a
-palette = 10=#2a4678
-palette = 11=#fbd7fc
-palette = 12=#dae2f9
-palette = 13=#c4c6d0
-palette = 14=#33353a
-palette = 15=#e2e2e9
+palette = 10=#6e334d
+palette = 11=#ffdcc4
+palette = 12=#ffd9e5
+palette = 13=#d5c2c7
+palette = 14=#3c3235
+palette = 15=#eedfe2

@@ -1,12 +1,12 @@
 window {
-    background-color: #111318FF;
+    background-color: #191114FF;
     border-radius: 16px;
-    border: 2px solid #acc7ffFF;
+    border: 2px solid #ffb0ceFF;
     padding: 12px;
 }
 
 #osd {
-    color: #e2e2e9FF;
+    color: #eedfe2FF;
 }
 
 progress, trough {
@@ -15,9 +15,9 @@ progress, trough {
 }
 
 trough {
-    background-color: #44474fFF;
+    background-color: #514347FF;
 }
 
 progress {
-    background-color: #acc7ffFF;
+    background-color: #ffb0ceFF;
 }

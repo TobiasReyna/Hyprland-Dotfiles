@@ -1,9 +1,9 @@
 * {
-    background: #111318A6;
-    background-alt: #282a2fBF;
-    foreground: #e2e2e9FF;
-    primary: #acc7ffFF;
-    on-primary: #0f2f60FF;
+    background: #191114A6;
+    background-alt: #30282aBF;
+    foreground: #eedfe2FF;
+    primary: #ffb0ceFF;
+    on-primary: #531d36FF;
 
     /* Fallback aliases for legacy scripts */
     bg: @background;
