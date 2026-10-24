@@ -8,6 +8,7 @@ hl.window_rule({ match = { class = "^(firefox)$" }, opaque = true })
 hl.window_rule({ match = { class = "^(Spotify)$" }, opaque = true })
 hl.window_rule({ match = { class = "^(steam)$" }, opaque = true })
 hl.window_rule({ match = { class = "^(vesktop)$" }, opaque = true })
+hl.window_rule({ match = { class = "^([Tt]hunar)$" }, opaque = true })
 
 -- Layer rules (Liquid Glass blur + ignorealpha for razor-sharp text)
 hl.layer_rule({ match = { namespace = "^(quickshell)$" }, blur = true, ignore_alpha = 0.25 })

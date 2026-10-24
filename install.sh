@@ -104,6 +104,11 @@ OFFICIAL_PKGS=(
     papirus-icon-theme
     jq
     git
+    thunar
+    thunar-archive-plugin
+    thunar-volman
+    tumbler
+    gvfs
 )
 
 AUR_PKGS=(

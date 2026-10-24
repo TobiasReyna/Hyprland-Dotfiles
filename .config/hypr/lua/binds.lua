@@ -1,6 +1,7 @@
 local mainMod = "SUPER"
 local terminal = "ghostty"
 local browser = "firefox"
+local fileManager = "thunar"
 local launcher = "rofi -show drun"
 local scripts = os.getenv("HOME") .. "/.config/hypr/scripts"
 
@@ -8,11 +9,13 @@ hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
 hl.bind(mainMod .. " + Space", hl.dsp.exec_cmd(launcher))
 hl.bind(mainMod .. " + Q", hl.dsp.window.close())
 hl.bind(mainMod .. " + B", hl.dsp.exec_cmd(browser))
+hl.bind(mainMod .. " + E", hl.dsp.exec_cmd(fileManager))
 hl.bind(mainMod .. " + W", hl.dsp.exec_cmd(scripts .. "/wallpaper-selector.sh"))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen())
 hl.bind(mainMod .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(mainMod .. " + L", hl.dsp.exec_cmd("hyprlock"))
 hl.bind(mainMod .. " + N", hl.dsp.exec_cmd("swaync-client -t -sw"))
+hl.bind(mainMod .. " + ALT + Delete", hl.dsp.exec_cmd("hyprctl dispatch exit"))
 
 -- Directional focus: SUPER + arrows
 hl.bind(mainMod .. " + left", hl.dsp.focus({ direction = "left" }))

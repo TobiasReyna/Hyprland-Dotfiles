@@ -65,7 +65,12 @@ sudo pacman -S --needed \
     wl-copy \
     qt5ct \
     qt6ct \
-    breeze
+    breeze \
+    thunar \
+    thunar-archive-plugin \
+    thunar-volman \
+    tumbler \
+    gvfs
 ```
 
 ### 2. Paquetes de AUR
@@ -142,11 +147,13 @@ hyprctl reload
 | <kbd>Super</kbd> + <kbd>N</kbd> | Abrir/cerrar panel de notificaciones y control | **SwayNC** |
 | <kbd>Super</kbd> + <kbd>Return</kbd> | Abrir terminal principal | **Ghostty** |
 | <kbd>Super</kbd> + <kbd>B</kbd> | Abrir navegador web | **Firefox** |
+| <kbd>Super</kbd> + <kbd>E</kbd> | Abrir explorador de archivos | **Thunar** |
 | <kbd>Super</kbd> + <kbd>W</kbd> | Selector de wallpapers con miniaturas | **Script + Rofi + awww** |
 | <kbd>Super</kbd> + <kbd>Q</kbd> | Cerrar ventana activa | **Hyprland** |
 | <kbd>Super</kbd> + <kbd>F</kbd> | Alternar pantalla completa | **Hyprland** |
 | <kbd>Super</kbd> + <kbd>V</kbd> | Alternar estado flotante | **Hyprland** |
 | <kbd>Super</kbd> + <kbd>L</kbd> | Bloquear pantalla con blur adaptativo | **Hyprlock** |
+| <kbd>Super</kbd> + <kbd>Alt</kbd> + <kbd>Supr</kbd> | Cerrar sesión y volver al greeter | **Hyprland** |
 | <kbd>Super</kbd> + <kbd>←</kbd> <kbd>↑</kbd> <kbd>→</kbd> <kbd>↓</kbd> | Mover foco direccional entre ventanas | **Hyprland** |
 | <kbd>Super</kbd> + <kbd>1</kbd> .. <kbd>0</kbd> | Cambiar de espacio de trabajo | **Hyprland** |
 | <kbd>Super</kbd> + <kbd>Shift</kbd> + <kbd>1</kbd> .. <kbd>0</kbd> | Mover ventana a espacio de trabajo | **Hyprland** |
