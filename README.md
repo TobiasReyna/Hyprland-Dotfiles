@@ -31,9 +31,11 @@ El repositorio está centralizado en `~/dotfiles/.config/` y se vincula simbóli
 │   ├── hypr/           # Configuración modular en Lua, hyprlock e hypridle
 │   ├── matugen/        # Plantillas Material You para todos los módulos
 │   ├── quickshell/     # Barra de estado reactiva en QML
-│   ├── rofi/           # Tema Spotlight integrado con Matugen
+│   ├── rofi/           # Lanzador con pestañas de categorías y soporte de mouse
 │   ├── swaync/         # Centro de notificaciones y control
 │   └── swayosd/        # Popups OSD de brillo y volumen
+├── .icons/
+│   └── default/        # Fallback de cursor X11/XWayland (Bibata-Modern-Ice)
 ├── .gitignore
 └── README.md
 ```
@@ -79,7 +81,8 @@ Instalar con tu asistente preferido (`paru` o `yay`):
 ```bash
 paru -S --needed \
     matugen-bin \
-    quickshell
+    quickshell \
+    bibata-cursor-theme-bin
 ```
 
 ### 3. Permisos de Hardware (Control de Brillo)
@@ -118,10 +121,11 @@ git clone https://github.com/tu-usuario/dotfiles.git ~/dotfiles
 Si ya cuentas con carpetas existentes en `~/.config/`, respalda previamente o enlaza directamente:
 
 ```bash
-mkdir -p ~/.config
+mkdir -p ~/.config ~/.icons
 for dir in hypr quickshell rofi swaync swayosd ghostty matugen fastfetch; do
     ln -sfn ~/dotfiles/.config/$dir ~/.config/$dir
 done
+ln -sfn ~/dotfiles/.icons/default ~/.icons/default
 ```
 
 #### 3. Generar la Paleta de Colores Inicial

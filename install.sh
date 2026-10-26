@@ -114,6 +114,7 @@ OFFICIAL_PKGS=(
 AUR_PKGS=(
     matugen-bin
     quickshell
+    bibata-cursor-theme-bin
 )
 
 echo ""
@@ -189,6 +190,35 @@ for folder in "${CONFIG_FOLDERS[@]}"; do
     ln -sfn "$SOURCE" "$TARGET"
     success "Enlazado: $TARGET -> $SOURCE"
 done
+
+# Configuración de fallback de cursores para XWayland/Electron en ~/.icons
+info "Configurando enlaces simbólicos de cursores en ~/.icons..."
+mkdir -p "$HOME/.icons"
+TARGET_ICONS="$HOME/.icons/default"
+SOURCE_ICONS="$DOTFILES_DIR/.icons/default"
+
+if [ -d "$SOURCE_ICONS" ]; then
+    if [ -L "$TARGET_ICONS" ] && [ "$(readlink "$TARGET_ICONS")" = "$SOURCE_ICONS" ]; then
+        success "Symlink de cursores al día: $TARGET_ICONS -> $SOURCE_ICONS"
+    else
+        if [ -e "$TARGET_ICONS" ] || [ -L "$TARGET_ICONS" ]; then
+            info "Respaldando configuración previa de cursores..."
+            if [ -z "$BACKUP_DIR" ]; then
+                BACKUP_DIR="$HOME/.config/backup_dotfiles_$(date +%Y%m%d_%H%M%S)"
+                mkdir -p "$BACKUP_DIR"
+            fi
+            mv "$TARGET_ICONS" "$BACKUP_DIR/icons_default"
+        fi
+        ln -sfn "$SOURCE_ICONS" "$TARGET_ICONS"
+        success "Enlazado: $TARGET_ICONS -> $SOURCE_ICONS"
+    fi
+fi
+
+# Aplicar cursor a nivel de gsettings para apps GTK si está disponible
+if command -v gsettings >/dev/null 2>&1; then
+    gsettings set org.gnome.desktop.interface cursor-theme 'Bibata-Modern-Ice' 2>/dev/null || true
+    gsettings set org.gnome.desktop.interface cursor-size 24 2>/dev/null || true
+fi
 
 if [ -n "$BACKUP_DIR" ]; then
     success "Respaldo de configuraciones previas guardado en: $BACKUP_DIR"

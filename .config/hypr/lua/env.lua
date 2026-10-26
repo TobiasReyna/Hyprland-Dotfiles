@@ -2,6 +2,12 @@
 hl.env("BROWSER", "firefox")
 hl.env("TERMINAL", "ghostty")
 
+-- Cursor (Wayland, XWayland & Electron)
+hl.env("XCURSOR_THEME", "Bibata-Modern-Ice")
+hl.env("XCURSOR_SIZE", "24")
+hl.env("HYPRCURSOR_THEME", "Bibata-Modern-Ice")
+hl.env("HYPRCURSOR_SIZE", "24")
+
 -- Wayland
 hl.env("XDG_SESSION_TYPE", "wayland")
 hl.env("XDG_CURRENT_DESKTOP", "Hyprland")
