@@ -10,7 +10,7 @@ Entorno de escritorio moderno, minimalista y reactivo para **Arch Linux** impuls
 - **Estética Liquid Glass:** Difuminado Dual Kawase de 4 pasadas, refracción vibrante, biseles de luz especular a 45° en bordes de ventana y sombras ambientales profundas.
 - **Opacidad selectiva:** Ventanas de aplicaciones estándar (Firefox, Spotify, Steam, Vesktop) mantienen 100% de opacidad para máxima legibilidad, mientras que los componentes del shell y terminal adoptan el efecto de vidrio esmerilado.
 - **Barra de estado:** [Quickshell](https://quickshell.outfoxxed.me/) (`shell.qml`) con reloj centrado absoluto, toggle de Caffeine, monitoreo de hardware (CPU, Temp, RAM %, Disco), selector de perfiles de energía, estado de batería e integración con System Tray (SNI) y MPRIS.
-- **Lanzador de aplicaciones:** [Rofi-Wayland](https://github.com/lbonn/rofi-wayland) con diseño centrado estilo Spotlight.
+- **Lanzador de aplicaciones:** [Rofi-Wayland](https://github.com/lbonn/rofi-wayland) con diseño centrado estilo Spotlight, pestañas de categorías (Todas, Juegos, Media, Dev, Sistema, Utils) y soporte completo para cursor/mouse.
 - **Centro de Notificaciones:** [SwayNC](https://github.com/ErikReider/SwayNotificationCenter) estilizado con CSS translúcido adaptativo.
 - **OSD en pantalla:** [SwayOSD](https://github.com/ErikReider/SwayOSD) para indicadores visuales de volumen y brillo en tiempo real.
 - **Terminal:** [Ghostty](https://ghostty.org/) con perfil translúcido e integración con Fastfetch compacto (`minifetch`).

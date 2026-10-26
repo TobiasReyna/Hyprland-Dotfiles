@@ -236,41 +236,64 @@ Scope {
                             rightPadding: 6
                         }
 
-                        Repeater {
-                            model: Hyprland.workspaces
+                        // Contenedor de Workspaces con soporte de click y scroll
+                        RowLayout {
+                            id: wsLayout
+                            spacing: 8
 
-                            Rectangle {
-                                required property var modelData
-                                property bool isSpecial: !modelData || modelData.id <= 0 || (modelData.name && modelData.name.startsWith("special:"))
-                                property bool isFocused: Hyprland.focusedWorkspace?.id === modelData.id
+                            Repeater {
+                                model: Hyprland.workspaces
 
-                                visible: !isSpecial
-                                Layout.preferredWidth: isSpecial ? 0 : (isFocused ? 28 : 18)
-                                Layout.preferredHeight: isSpecial ? 0 : 22
-                                radius: 8
-                                color: isFocused ? Colors.primary : Colors.surfaceVariant
+                                Rectangle {
+                                    required property var modelData
+                                    property bool isSpecial: !modelData || modelData.id <= 0 || (modelData.name && modelData.name.startsWith("special:"))
+                                    property bool isFocused: Hyprland.focusedWorkspace?.id === modelData.id
 
-                                Behavior on Layout.preferredWidth {
-                                    enabled: !parent.isSpecial
-                                    NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
+                                    visible: !isSpecial
+                                    Layout.preferredWidth: isSpecial ? 0 : (isFocused ? 28 : 18)
+                                    Layout.preferredHeight: isSpecial ? 0 : 22
+                                    radius: 8
+                                    color: isFocused ? Colors.primary : Colors.surfaceVariant
+
+                                    Behavior on Layout.preferredWidth {
+                                        enabled: !parent.isSpecial
+                                        NumberAnimation { duration: 180; easing.type: Easing.OutCubic }
+                                    }
+                                    Behavior on color {
+                                        ColorAnimation { duration: 180 }
+                                    }
+
+                                    Text {
+                                        anchors.centerIn: parent
+                                        text: modelData.id
+                                        font.family: "JetBrainsMono Nerd Font"
+                                        font.pixelSize: 11
+                                        font.bold: true
+                                        color: parent.isFocused ? Colors.primaryText : Colors.text
+                                    }
+
+                                    MouseArea {
+                                        anchors.fill: parent
+                                        cursorShape: Qt.PointingHandCursor
+                                        onClicked: Hyprland.dispatch(`hl.dsp.focus({ workspace = '${modelData.id}' })`)
+                                        onWheel: (wheel) => {
+                                            if (wheel.angleDelta.y > 0) {
+                                                Hyprland.dispatch("hl.dsp.focus({ workspace = 'e-1' })")
+                                            } else if (wheel.angleDelta.y < 0) {
+                                                Hyprland.dispatch("hl.dsp.focus({ workspace = 'e+1' })")
+                                            }
+                                        }
+                                    }
                                 }
-                                Behavior on color {
-                                    ColorAnimation { duration: 180 }
-                                }
+                            }
 
-                                Text {
-                                    anchors.centerIn: parent
-                                    text: modelData.id
-                                    font.family: "JetBrainsMono Nerd Font"
-                                    font.pixelSize: 11
-                                    font.bold: true
-                                    color: parent.isFocused ? Colors.primaryText : Colors.text
-                                }
-
-                                MouseArea {
-                                    anchors.fill: parent
-                                    cursorShape: Qt.PointingHandCursor
-                                    onClicked: Hyprland.dispatch("workspace " + modelData.id)
+                            WheelHandler {
+                                onWheel: (event) => {
+                                    if (event.angleDelta.y > 0) {
+                                        Hyprland.dispatch("hl.dsp.focus({ workspace = 'e-1' })")
+                                    } else if (event.angleDelta.y < 0) {
+                                        Hyprland.dispatch("hl.dsp.focus({ workspace = 'e+1' })")
+                                    }
                                 }
                             }
                         }

@@ -2,7 +2,7 @@ local mainMod = "SUPER"
 local terminal = "ghostty"
 local browser = "firefox"
 local fileManager = "thunar"
-local launcher = "rofi -show drun"
+local launcher = "rofi -show Todas"
 local scripts = os.getenv("HOME") .. "/.config/hypr/scripts"
 
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))

@@ -1,17 +1,25 @@
 configuration {
-    modi: "drun,run";
+    modi: "Todas:~/.config/rofi/scripts/Todas,Juegos:~/.config/rofi/scripts/Juegos,Multimedia:~/.config/rofi/scripts/Multimedia,Desarrollo:~/.config/rofi/scripts/Desarrollo,Sistema:~/.config/rofi/scripts/Sistema,Utilidades:~/.config/rofi/scripts/Utilidades";
+    sidebar-mode: true;
+    hover-select: true;
+    me-select-entry: "";
+    me-accept-entry: "MousePrimary";
     show-icons: true;
     icon-theme: "Papirus";
-    font: "JetBrainsMono Nerd Font 12";
-    display-drun: " ";
-    drun-display-format: "{name}";
+    font: "JetBrainsMono Nerd Font 11";
+    display-Todas: "󰄲 Todas";
+    display-Juegos: " Juegos";
+    display-Multimedia: " Media";
+    display-Desarrollo: " Dev";
+    display-Sistema: " Sistema";
+    display-Utilidades: " Utils";
 }
 
 @import "colors.rasi"
 
 window {
-    width: 40%;
-    padding: 24px;
+    width: 44%;
+    padding: 22px;
     border-radius: 16px;
     background-color: @background;
     border: 1px solid;
@@ -19,22 +27,24 @@ window {
 }
 
 mainbox {
+    children: [ inputbar, mode-switcher, listview ];
     background-color: transparent;
     border: 0px;
+    spacing: 10px;
 }
 
 inputbar {
     children: [ prompt, entry ];
     background-color: @background-alt;
     border-radius: 12px;
-    padding: 14px;
+    padding: 12px 14px;
     spacing: 12px;
 }
 
 prompt {
     background-color: transparent;
     text-color: @primary;
-    font: "JetBrainsMono Nerd Font 14";
+    font: "JetBrainsMono Nerd Font 13";
 }
 
 entry {
@@ -42,11 +52,31 @@ entry {
     text-color: @foreground;
     placeholder: "Buscar...";
     placeholder-color: @foreground;
+    cursor: text;
+}
+
+mode-switcher {
+    background-color: transparent;
+    spacing: 8px;
+    margin: 4px 0 0 0;
+}
+
+button {
+    padding: 8px 12px;
+    border-radius: 8px;
+    background-color: @background-alt;
+    text-color: @foreground;
+    cursor: pointer;
+}
+
+button selected {
+    background-color: @primary;
+    text-color: @on-primary;
 }
 
 listview {
     background-color: transparent;
-    margin: 24px 0 0 0;
+    margin: 6px 0 0 0;
     lines: 7;
     columns: 1;
     spacing: 4px;
@@ -55,10 +85,11 @@ listview {
 }
 
 element {
-    padding: 12px;
+    padding: 10px 14px;
     border-radius: 8px;
     background-color: transparent;
     text-color: @foreground;
+    cursor: pointer;
 }
 
 /* Force normal and alternate states to be transparent so they don't use the default alternating colors */
@@ -84,10 +115,12 @@ element-text {
     background-color: transparent;
     text-color: inherit;
     vertical-align: 0.5;
+    cursor: inherit;
 }
 
 element-icon {
     background-color: transparent;
-    size: 28px;
-    margin: 0 16px 0 0;
+    size: 26px;
+    margin: 0 14px 0 0;
+    cursor: inherit;
 }
