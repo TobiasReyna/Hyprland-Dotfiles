@@ -4,6 +4,13 @@ configuration {
     hover-select: true;
     me-select-entry: "";
     me-accept-entry: "MousePrimary";
+
+    /* Navegacion por categorias con flechas horizontales */
+    kb-mode-next: "Right,Shift+Right,Control+Tab";
+    kb-mode-previous: "Left,Shift+Left,Control+ISO_Left_Tab";
+    kb-move-char-back: "Control+b";
+    kb-move-char-forward: "Control+f";
+
     show-icons: true;
     icon-theme: "Papirus";
     font: "JetBrainsMono Nerd Font 11";
